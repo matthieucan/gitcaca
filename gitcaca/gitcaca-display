@@ -4,6 +4,7 @@ import os
 import sys
 import re
 import subprocess
+import argparse
 
 AVATAR_STORAGE = '/var/tmp/gitcaca'
 
