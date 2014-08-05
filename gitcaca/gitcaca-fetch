@@ -1,0 +1,56 @@
+#!/usr/bin/env python
+
+import os
+import requests
+import argparse
+import subprocess
+import hashlib
+
+DIR = os.getcwd()
+AVATAR_STORAGE = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                              'avatars')
+GRAVATAR_URL = 'http://www.gravatar.com/avatar/%s?d=404&s=200'
+
+def check_repo(folder):
+    # is it a git repository?
+    if not os.path.exists(os.path.join(DIR, '.git')):
+        raise Exception("It appears you're not in a Git repository")
+    # does the folder exist?
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+def get_authors():
+    command = 'git log --pretty=format:%ae | sort | uniq'
+    authors = subprocess.check_output(command, shell=True)
+    return authors.split()
+
+def md5(string):
+    m = hashlib.md5()
+    m.update(string.encode('ascii', errors='ignore'))
+    return m.hexdigest()
+
+def download(folder, authors):
+    for author in authors:
+        print('Processing %s' % author)
+        hash_ = md5(author.lower().strip())
+        r = requests.get(GRAVATAR_URL % hash_)
+        if r.status_code == 200:
+            print('Gravatar found, saving')
+            with open(os.path.join(folder, author), 'w') as f:
+                f.write(r.content)
+        else:
+            print('Gravatar not found')
+
+def go(folder):
+    check_repo(folder)
+    authors = get_authors()
+    download(folder, authors)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Fetches all Gravatar images '
+                                     'from the authors of a Git repo.')
+    parser.add_argument('--folder', type=str, default=AVATAR_STORAGE, required=False,
+                        help='Folder where to save the pictures.')
+    args = parser.parse_args()
+
+    go(folder=args.folder)
