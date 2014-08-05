@@ -5,8 +5,7 @@ import sys
 import re
 import subprocess
 
-AVATAR_STORAGE = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                              'avatars', 'fetched')
+AVATAR_STORAGE = '/var/tmp/gitcaca'
 
 def get_avatar(folder, email, width):
     path = os.path.join(folder, email)
