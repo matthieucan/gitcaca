@@ -6,8 +6,9 @@ import argparse
 import subprocess
 import hashlib
 
+import gitcaca
+
 DIR = os.getcwd()
-AVATAR_STORAGE = '/var/tmp/gitcaca'
 GRAVATAR_URL = 'http://www.gravatar.com/avatar/%s?d=404&s=200'
 
 def check_repo(folder):
@@ -48,7 +49,8 @@ def go(folder):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Fetches all Gravatar images '
                                      'from the authors of a Git repo.')
-    parser.add_argument('--folder', type=str, default=AVATAR_STORAGE, required=False,
+    parser.add_argument('--folder', type=str, default=gitcaca.AVATAR_STORAGE,
+                        required=False,
                         help='Folder where to save the pictures.')
     args = parser.parse_args()
 

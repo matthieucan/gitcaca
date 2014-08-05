@@ -5,13 +5,15 @@ import sys
 import re
 import subprocess
 import argparse
+import pkg_resources
 
-AVATAR_STORAGE = '/var/tmp/gitcaca'
+import gitcaca
 
 def get_avatar(folder, email, width):
     path = os.path.join(folder, email)
+
     if not os.path.exists(path):
-        path = os.path.join(folder, 'default.png')
+        path = gitcaca.get_default_avatar()
 
     command = 'img2txt -W %(width)s %(path)s' % {'path': path,
                                                  'width': width}
@@ -36,7 +38,8 @@ if __name__ == '__main__':
                                      'IMG:foo@bar.org with the associated '
                                      'Gravatar in stdin and prints it to '
                                      'stdout.')
-    parser.add_argument('--folder', type=str, default=AVATAR_STORAGE, required=False,
+    parser.add_argument('--folder', type=str, default=gitcaca.AVATAR_STORAGE,
+                        required=False,
                         help='Folder where to load the pictures from.')
     parser.add_argument('-W', '--width', type=int, default=12, required=False,
                         help='Width of the picture.')
