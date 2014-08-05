@@ -17,17 +17,7 @@ def get_avatar(folder, email, width):
     result = subprocess.check_output(command, shell=True)
     return result
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Replaces instances of '
-                                     'IMG:foo@bar.org with the associated '
-                                     'Gravatar in stdin and prints it to '
-                                     'stdout.')
-    parser.add_argument('--folder', type=str, default=AVATAR_STORAGE, required=False,
-                        help='Folder where to load the pictures from.')
-    parser.add_argument('-W', '--width', type=int, default=12, required=False,
-                        help='Width of the picture.')
-    args = parser.parse_args()
-
+def go(folder, width):
     r = re.compile(r'IMG:([^\s]*)')
     for line in sys.stdin.readlines():
         search = re.search(r, line)
@@ -39,3 +29,16 @@ if __name__ == '__main__':
             sys.stdout.write(line)
         except Exception:
             sys.exit()
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Replaces instances of '
+                                     'IMG:foo@bar.org with the associated '
+                                     'Gravatar in stdin and prints it to '
+                                     'stdout.')
+    parser.add_argument('--folder', type=str, default=AVATAR_STORAGE, required=False,
+                        help='Folder where to load the pictures from.')
+    parser.add_argument('-W', '--width', type=int, default=12, required=False,
+                        help='Width of the picture.')
+    args = parser.parse_args()
+
+    go(args.folder, args.width)
