@@ -26,7 +26,7 @@ def go(folder, width):
         search = re.search(r, line)
         if search:
             email = search.group(1)
-            avatar = get_avatar(args.folder, email, args.width)
+            avatar = get_avatar(folder, email, width)
             line = re.sub(r, avatar, line)
         try:
             sys.stdout.write(line)
