@@ -7,8 +7,8 @@ import subprocess
 import hashlib
 
 DIR = os.getcwd()
-AVATAR_STORAGE = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                              'avatars')
+AVATAR_STORAGE = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                              'avatars', 'fetched')
 GRAVATAR_URL = 'http://www.gravatar.com/avatar/%s?d=404&s=200'
 
 def check_repo(folder):
