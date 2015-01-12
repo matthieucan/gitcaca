@@ -11,9 +11,9 @@ Install libcaca, on Debian/Ubuntu:
 $ sudo apt-get install caca-utils
 ```
 
-Then use pip to install gitcaca:
+Then install gitcaca:
 ```
-$ sudo pip install gitcaca
+$ sudo python setup.py install
 ```
 
 ## How to use
